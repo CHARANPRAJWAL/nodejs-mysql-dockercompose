@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  node-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: node-app/node-app:latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+    ports:
+      - "5000:5000"

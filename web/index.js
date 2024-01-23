@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const app = express();
+const http = require('http');
 
 const connection = mysql.createPool({
 	connectionLimit: 10,
@@ -11,6 +12,10 @@ const connection = mysql.createPool({
 });
 
 app.get('/', (req, res) => {
+	res.send('Hello world')
+   })
+
+app.get('/db', (req, res) => {
 	connection.query('SELECT * FROM Student' , (err, rows) => {
 		if(err){
 			res.json({
