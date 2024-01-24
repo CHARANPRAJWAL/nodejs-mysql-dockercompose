@@ -1,0 +1,52 @@
+name: Push-to-Staging
+
+# Trigger deployment only on push to staging branch
+on:
+  push:
+    branches:
+      - testing
+jobs:
+  BuildandpushtoECR:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      run: |
+        echo ${{ secrets.AWS_ACCESS_KEY_ID }} > aws_access_key_id
+        echo ${{ secrets.AWS_SECRET_ACCESS_KEY }} > aws_secret_access_key
+        aws configure set aws_access_key_id $(cat aws_access_key_id)
+        aws configure set aws_secret_access_key $(cat aws_secret_access_key)
+        aws configure set region eu-north-1
+
+    - name: Login to Amazon ECR
+      run: |
+        aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 230374442770.dkr.ecr.eu-north-1.amazonaws.com
+
+    - name: Build Docker image
+      run: |
+        docker build -f ./web/Dockerfile -t nodejs-repo .
+
+    - name: Tag Docker image
+      run: |
+        docker tag nodejs-repo:latest 230374442770.dkr.ecr.eu-north-1.amazonaws.com/nodejs-repo:latest
+
+    - name: Push Docker image to ECR
+      run: |
+        docker push 230374442770.dkr.ecr.eu-north-1.amazonaws.com/nodejs-repo:latest
+
+  ssh-into-ansible-server:
+    name: ssh-into-ansible-server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: 51.20.32.89
+          username: ansible
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            ssh ansible@16.170.219.48 && cd ansible-main/Docker-Swarm && ansible-playbook -i environment/inventory deploy-nodejs-PB.yml 
