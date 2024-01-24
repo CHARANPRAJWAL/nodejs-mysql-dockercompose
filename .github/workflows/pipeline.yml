@@ -40,7 +40,7 @@ jobs:
   ssh-into-ansible-server:
     name: ssh-into-ansible-server
     runs-on: ubuntu-latest
-    steps:
+    steps:     
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
@@ -49,4 +49,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            ssh ansible@16.170.219.48 && cd ansible-main/Docker-Swarm && ansible-playbook -i environment/inventory deploy-nodejs-PB.yml 
+            cd ansible-main/Docker-Swarm
+            ansible-playbook -i environment/inventory deploy-nodejs-PB.yml
+          
