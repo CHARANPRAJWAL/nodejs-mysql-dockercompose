@@ -49,6 +49,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            ssh root@16.170.219.48
             cd ansible-main/Docker-Swarm
             ansible-playbook -i environment/inventory deploy-nodejs-PB.yml
           
