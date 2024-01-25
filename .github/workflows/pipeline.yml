@@ -27,7 +27,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -f ./web/Dockerfile -t nodejs-repo .
+        docker build -f ./web/Dockerfile -t nodejs-repo ./web/
 
     - name: Tag Docker image
       run: |
