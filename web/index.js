@@ -5,7 +5,7 @@ const http = require('http');
 
 const connection = mysql.createPool({
 	connectionLimit: 10,
-	host: process.env.MYSQL_HOST || 'localhost',
+	host: process.env.MYSQL_HOST || '16.170.219.48',
 	user: process.env.MYSQL_USER || 'root',
 	password: process.env.MYSQL_PASSWORD || 'root',
 	database: process.env.MYSQL_DATABASE || 'students'
