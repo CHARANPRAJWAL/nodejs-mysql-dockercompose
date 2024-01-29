@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const app = express();
 const http = require('http');
 
@@ -8,7 +8,10 @@ const connection = mysql.createPool({
 	host: process.env.MYSQL_HOST || '13.60.25.122',
 	user: process.env.MYSQL_USER || 'root',
 	password: process.env.MYSQL_PASSWORD || 'root',
-	database: process.env.MYSQL_DATABASE || 'students'
+	database: process.env.MYSQL_DATABASE || 'students',
+	authPlugins: {
+		mysql_clear_password: () => () => Buffer.from('root'),
+	  },
 });
 
 app.get('/', (req, res) => {
