@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql');
+const mysql2 = require('mysql2');
 const app = express();
 const http = require('http');
 
