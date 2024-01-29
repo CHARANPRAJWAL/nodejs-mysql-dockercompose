@@ -52,7 +52,7 @@ jobs:
           script: |
 
             cd /home/ansible/Ansible/Deploy-NodeJS+MySQL
-            ansible-playbook -i environment/inventory -e @vars/aws-cli.yml deploy-nodejs-PB.yml
+            ansible-playbook -i environment/inventory.yml -e @vars/aws-cli.yml deploy-nodejs-PB.yml
             # ansible-playbook -i ../Mysql-Master-Slave/environment/master.yml -e @../Mysql-Master-Slave/vars/mysql-master-var.yml ../Mysql-Master-Slave/master-PB.yml
             # ansible-playbook -i ../Mysql-Master-Slave/environment/slave.yml -e @../Mysql-Master-Slave/vars/mysql-slave-var.yml ../Mysql-Master-Slave/slave-PB.yml
             #  ansible-playbook -i environment/inventory -e @vars/CreateDB-and-Restore-PB.yml CreateDB-and-Restore-PB.yml
